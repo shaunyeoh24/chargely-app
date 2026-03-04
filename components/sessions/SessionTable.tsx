@@ -51,7 +51,7 @@ export default function SessionTable({ sessions, onEditSession, onDeleteSession 
   // Simple logic to determine if efficiency is "good" (below 200 Wh/km as a baseline)
   const getEfficiencyColor = (whPerKm: number) => {
     if (whPerKm < 150) return "text-emerald-700 bg-emerald-100/50 border-emerald-200";
-    if (whPerKm < 200) return "text-blue-700 bg-blue-100/50 border-blue-200";
+    if (whPerKm < 200) return "text-teal-700 bg-teal-100/50 border-teal-200";
     return "text-amber-700 bg-amber-100/50 border-amber-200";
   };
 
@@ -158,7 +158,7 @@ export default function SessionTable({ sessions, onEditSession, onDeleteSession 
                   <span className="text-[10px] font-black text-slate-400 ml-1.5 uppercase tracking-tighter">kWh</span>
                 </td>
                 <td className="px-6 py-5 text-right whitespace-nowrap">
-                  <span className="text-sm font-black text-blue-600">RM {session.cost_rm.toFixed(2)}</span>
+                  <span className="text-sm font-black text-teal-600">RM {session.cost_rm.toFixed(2)}</span>
                 </td>
                 <td className="px-6 py-5 text-right whitespace-nowrap">
                   <span className="text-xs font-bold text-slate-600">{session.rm_per_kwh.toFixed(2)}</span>
@@ -197,7 +197,7 @@ export default function SessionTable({ sessions, onEditSession, onDeleteSession 
                   <div className="inline-flex flex-col sm:flex-row gap-2 justify-end">
                     <button
                       onClick={() => onEditSession(session)}
-                      className="p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all active:scale-90"
+                      className="p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-teal-50 hover:text-teal-600 transition-all active:scale-90"
                       title="Edit session"
                     >
                       <Edit2 className="w-4 h-4" />

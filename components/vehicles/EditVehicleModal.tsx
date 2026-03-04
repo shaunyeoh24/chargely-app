@@ -70,7 +70,7 @@ export default function EditVehicleModal({ vehicle, onClose, onVehicleUpdated }:
   };
 
   const inputClasses =
-    'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-medium';
+    'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-sm font-medium';
   const labelClasses = 'text-[11px] font-black text-slate-700 ml-1 uppercase tracking-wider';
 
   return (
@@ -81,8 +81,8 @@ export default function EditVehicleModal({ vehicle, onClose, onVehicleUpdated }:
         <div className="p-6 space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shadow-inner">
-                <Car className="w-5 h-5 text-blue-600" />
+              <div className="w-9 h-9 bg-teal-50 rounded-xl flex items-center justify-center shadow-inner">
+                <Car className="w-5 h-5 text-teal-600" />
               </div>
               <h3 className="text-lg font-black text-slate-900 tracking-tight">Edit Vehicle</h3>
             </div>
@@ -183,7 +183,7 @@ export default function EditVehicleModal({ vehicle, onClose, onVehicleUpdated }:
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-[2] bg-blue-600 text-white py-3 rounded-xl font-black hover:bg-blue-700 transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
+                className="flex-[2] bg-teal-600 text-white py-3 rounded-xl font-black hover:bg-teal-700 transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>

@@ -28,7 +28,7 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center gap-2.5 group transition-transform active:scale-95">
-            <div className="chargely-logo-block w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 group-hover:rotate-3 transition-transform">
+            <div className="chargely-logo-block w-9 h-9 bg-teal-600 rounded-xl flex items-center justify-center shadow-sm shadow-teal-100 group-hover:rotate-3 transition-transform">
               <Car className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600">
@@ -47,7 +47,7 @@ export default function Navbar() {
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all",
                     isActive 
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-100" 
+                      ? "bg-teal-600 text-white shadow-md shadow-teal-100" 
                       : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >

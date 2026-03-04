@@ -40,5 +40,5 @@
 }
 
 .card-hover {
-  @apply transition-all duration-200 hover:shadow-md hover:border-blue-200/50;
+  @apply transition-all duration-200 hover:shadow-md hover:border-teal-200/50;
 }

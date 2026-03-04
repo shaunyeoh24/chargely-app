@@ -54,14 +54,14 @@ export default function VehicleForm({ onVehicleCreated }: VehicleFormProps) {
     }));
   };
 
-  const inputClasses = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-medium";
+  const inputClasses = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-sm font-medium";
   const labelClasses = "text-[11px] font-black text-slate-700 ml-1 uppercase tracking-wider";
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-6">
       <div className="flex items-center gap-3 mb-1">
-        <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shadow-inner">
-          <PlusCircle className="w-5 h-5 text-blue-600" />
+        <div className="w-9 h-9 bg-teal-50 rounded-xl flex items-center justify-center shadow-inner">
+          <PlusCircle className="w-5 h-5 text-teal-600" />
         </div>
         <h3 className="text-lg font-black text-slate-900 tracking-tight">Add Vehicle</h3>
       </div>
@@ -142,7 +142,7 @@ export default function VehicleForm({ onVehicleCreated }: VehicleFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-blue-600 text-white py-3 rounded-2xl font-black text-base hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-xl shadow-blue-200 flex items-center justify-center gap-2"
+        className="w-full bg-teal-600 text-white py-3 rounded-2xl font-black text-base hover:bg-teal-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-md shadow-teal-100 flex items-center justify-center gap-2"
       >
         {isSubmitting ? (
           <>

@@ -101,7 +101,7 @@ export default function VehiclesPage() {
           {isLoading ? (
             <div className="h-64 flex flex-col items-center justify-center bg-white rounded-3xl border border-slate-100 shadow-sm">
               <div className="relative">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-100 border-t-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-teal-100 border-t-teal-600"></div>
               </div>
               <p className="mt-4 text-sm font-bold text-slate-400 uppercase tracking-widest">Loading fleet...</p>
             </div>

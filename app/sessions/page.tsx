@@ -77,7 +77,7 @@ export default function SessionsPage() {
           </p>
           <Link 
             href="/vehicles" 
-            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+            className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition-all shadow-sm shadow-teal-100"
           >
             Go to Vehicles
           </Link>
@@ -100,7 +100,7 @@ export default function SessionsPage() {
 
           {activeVehicle && (
             <div className="flex items-center gap-2.5">
-              <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest border border-blue-100">
+              <span className="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-xs font-black uppercase tracking-widest border border-teal-100">
                 {activeVehicle.year} {activeVehicle.make} {activeVehicle.model}
               </span>
             </div>
@@ -112,7 +112,7 @@ export default function SessionsPage() {
             <select
               value={activeVehicleId || ''}
               onChange={(e) => setActiveVehicleId(e.target.value)}
-              className="appearance-none w-full bg-slate-50 border border-slate-200 rounded-2xl pl-11 pr-10 py-3 text-slate-700 font-semibold text-sm sm:text-base hover:border-slate-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 outline-none transition-colors"
+              className="appearance-none w-full bg-slate-50 border border-slate-200 rounded-2xl pl-11 pr-10 py-3 text-slate-700 font-semibold text-sm sm:text-base hover:border-slate-300 focus:border-teal-400 focus:ring-2 focus:ring-teal-500/10 outline-none transition-colors"
             >
               {vehicles.map(v => (
                 <option key={v.id} value={v.id}>
@@ -146,7 +146,7 @@ export default function SessionsPage() {
           {isLoading ? (
             <div className="h-64 flex flex-col items-center justify-center bg-white rounded-3xl border border-slate-100 shadow-sm">
               <div className="relative">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-100 border-t-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-teal-100 border-t-teal-600"></div>
               </div>
               <p className="mt-4 text-sm font-bold text-slate-400 uppercase tracking-widest">Loading history...</p>
             </div>

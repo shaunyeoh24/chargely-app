@@ -67,8 +67,8 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
   return (
     <form onSubmit={handleSubmit} className="chargely-session-form bg-white p-5 rounded-3xl shadow-sm border border-slate-200 space-y-4">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shadow-inner">
-          <Zap className="w-5 h-5 text-blue-600" />
+        <div className="w-9 h-9 bg-teal-50 rounded-xl flex items-center justify-center shadow-inner">
+          <Zap className="w-5 h-5 text-teal-600" />
         </div>
         <h3 className="text-lg font-black text-slate-900 tracking-tight">Insert Charging and Odometer Details</h3>
       </div>
@@ -87,7 +87,7 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
             type="date"
             value={formData.date || ''}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-sm font-semibold"
           />
         </div>
 
@@ -100,7 +100,7 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
             value={formData.kwh || ''}
             onChange={handleChange}
             placeholder="0.0"
-            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
         </div>
 
@@ -113,7 +113,7 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
             value={formData.cost_rm || ''}
             onChange={handleChange}
             placeholder="0.00"
-            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
         </div>
 
@@ -126,14 +126,14 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
             value={formData.odometer_km || ''}
             onChange={handleChange}
             placeholder="0"
-            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="chargely-session-submit w-full bg-blue-600 text-white py-2.5 rounded-xl font-black text-sm hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-lg shadow-blue-200"
+          className="chargely-session-submit w-full bg-teal-600 text-white py-2.5 rounded-xl font-black text-sm hover:bg-teal-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-sm shadow-teal-100"
         >
           {isSubmitting ? 'Logging...' : 'Log Session'}
         </button>

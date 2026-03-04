@@ -67,7 +67,7 @@ export default function EditSessionModal({ session, onClose, onSessionUpdated }:
   };
 
   const labelClasses = "text-sm font-black text-slate-700 ml-1 uppercase tracking-wider";
-  const inputClasses = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-lg";
+  const inputClasses = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 outline-none transition-all font-bold text-lg";
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -80,8 +80,8 @@ export default function EditSessionModal({ session, onClose, onSessionUpdated }:
         <div className="p-8 sm:p-10">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center shadow-inner">
-                <Zap className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center shadow-inner">
+                <Zap className="w-6 h-6 text-teal-600" />
               </div>
               <div>
                 <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">Edit Session</h3>
@@ -127,7 +127,7 @@ export default function EditSessionModal({ session, onClose, onSessionUpdated }:
                     placeholder="0.0"
                     className={inputClasses}
                   />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm group-focus-within:text-blue-500 transition-colors">kWh</div>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm group-focus-within:text-teal-500 transition-colors">kWh</div>
                 </div>
               </div>
 
@@ -143,7 +143,7 @@ export default function EditSessionModal({ session, onClose, onSessionUpdated }:
                     placeholder="0.00"
                     className={cn(inputClasses, "pl-12")}
                   />
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold group-focus-within:text-blue-500 transition-colors">RM</div>
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold group-focus-within:text-teal-500 transition-colors">RM</div>
                 </div>
               </div>
             </div>
@@ -160,7 +160,7 @@ export default function EditSessionModal({ session, onClose, onSessionUpdated }:
                   placeholder="0"
                   className={inputClasses}
                 />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm group-focus-within:text-blue-500 transition-colors">km</div>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm group-focus-within:text-teal-500 transition-colors">km</div>
               </div>
             </div>
 
@@ -175,7 +175,7 @@ export default function EditSessionModal({ session, onClose, onSessionUpdated }:
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-[2] bg-blue-600 text-white py-4 rounded-2xl font-black text-lg hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-xl shadow-blue-200 flex items-center justify-center gap-2"
+                className="flex-[2] bg-teal-600 text-white py-4 rounded-2xl font-black text-lg hover:bg-teal-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-md shadow-teal-100 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>

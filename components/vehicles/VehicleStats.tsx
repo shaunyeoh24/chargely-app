@@ -46,8 +46,8 @@ export default function VehicleStats({ stats }: VehicleStatsProps) {
       value: stats.avgWhPerKm !== null ? stats.avgWhPerKm.toFixed(0) : '—',
       unit: 'Wh/km',
       icon: Activity,
-      color: 'text-blue-600',
-      bg: 'bg-blue-50',
+      color: 'text-teal-600',
+      bg: 'bg-teal-50',
       valueClassName: '',
     },
   ];

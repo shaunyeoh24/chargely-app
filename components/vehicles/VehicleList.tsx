@@ -81,8 +81,8 @@ export default function VehicleList({
             className={cn(
               "group relative p-6 rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-hidden",
               isActive
-                ? "bg-blue-600 border-blue-600 shadow-xl shadow-blue-100"
-                : "bg-white border-slate-100 hover:border-blue-200 hover:shadow-lg hover:shadow-slate-100",
+                ? "bg-teal-600 border-teal-600 shadow-md shadow-teal-100"
+                : "bg-white border-slate-100 hover:border-teal-200 hover:shadow-md hover:shadow-slate-100",
               isDeleting && "opacity-50 pointer-events-none"
             )}
           >
@@ -94,7 +94,7 @@ export default function VehicleList({
                   {/* Vehicle avatar/icon */}
                   <div className={cn(
                     "w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all shadow-sm",
-                    isActive ? "bg-white/20 text-white" : "bg-blue-50 text-blue-600 group-hover:scale-110"
+                    isActive ? "bg-white/20 text-white" : "bg-teal-50 text-teal-600 group-hover:scale-110"
                   )}>
                     <Car className="w-7 h-7" />
                   </div>
@@ -106,7 +106,7 @@ export default function VehicleList({
                     )} title={vehicle.name}>{vehicle.name}</h4>
                     <p className={cn(
                       "text-sm font-bold opacity-70 truncate",
-                      isActive ? "text-blue-50" : "text-slate-500"
+                      isActive ? "text-teal-50" : "text-slate-500"
                     )}>
                       {vehicle.make} {vehicle.model}
                     </p>
@@ -125,7 +125,7 @@ export default function VehicleList({
                       "p-2.5 rounded-xl transition-all active:scale-90 shadow-sm",
                       isActive
                         ? "bg-white/10 text-white hover:bg-white/20"
-                        : "bg-slate-50 text-slate-400 hover:bg-blue-50 hover:text-blue-600"
+                        : "bg-slate-50 text-slate-400 hover:bg-teal-50 hover:text-teal-600"
                     )}
                     title="Edit vehicle"
                   >
@@ -164,7 +164,7 @@ export default function VehicleList({
                   "flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors",
                   isActive ? "bg-white/10 text-white" : "bg-slate-50 text-slate-600"
                 )}>
-                  <Calendar className={cn("w-4 h-4", isActive ? "text-blue-100" : "text-slate-400")} />
+                  <Calendar className={cn("w-4 h-4", isActive ? "text-teal-100" : "text-slate-400")} />
                   <span className="text-sm font-black uppercase tracking-tighter">{vehicle.year || 'N/A'}</span>
                 </div>
                 {/* Battery card */}
@@ -172,7 +172,7 @@ export default function VehicleList({
                   "flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors",
                   isActive ? "bg-white/10 text-white" : "bg-slate-50 text-slate-600"
                 )}>
-                  <Battery className={cn("w-4 h-4", isActive ? "text-blue-100" : "text-slate-400")} />
+                  <Battery className={cn("w-4 h-4", isActive ? "text-teal-100" : "text-slate-400")} />
                   <span className="text-sm font-black uppercase tracking-tighter">
                     {vehicle.battery_capacity_kwh ? `${vehicle.battery_capacity_kwh} kWh` : 'N/A'}
                   </span>
@@ -182,7 +182,7 @@ export default function VehicleList({
                   "flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors",
                   isActive ? "bg-white/10 text-white" : "bg-slate-50 text-slate-600"
                 )}>
-                  <Route className={cn("w-4 h-4", isActive ? "text-blue-100" : "text-slate-400")} />
+                  <Route className={cn("w-4 h-4", isActive ? "text-teal-100" : "text-slate-400")} />
                   <span className="text-sm font-black uppercase tracking-tighter">
                     {stats?.loggedMileageKm !== null && stats?.loggedMileageKm !== undefined
                       ? `${Math.round(stats.loggedMileageKm)} km`
@@ -194,7 +194,7 @@ export default function VehicleList({
                   "flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors",
                   isActive ? "bg-white/10 text-white" : "bg-slate-50 text-slate-600"
                 )}>
-                  <Zap className={cn("w-4 h-4", isActive ? "text-blue-100" : "text-slate-400")} />
+                  <Zap className={cn("w-4 h-4", isActive ? "text-teal-100" : "text-slate-400")} />
                   <span className="text-sm font-black uppercase tracking-tighter">
                     {stats?.avgWhPerKm !== null && stats?.avgWhPerKm !== undefined
                       ? `${Math.round(stats.avgWhPerKm)} Wh/km`
