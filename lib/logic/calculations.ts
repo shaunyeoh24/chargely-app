@@ -32,16 +32,28 @@ export const calculations = {
       const distanceKm = prevSession ? session.odometer_km - prevSession.odometer_km : 0;
       
       const rm_per_kwh = this.calculateRmPerKwh(session.cost_rm, session.kwh);
+      let efficiency_status: 'calculated' | 'first_session' | 'odometer_not_increasing' = 'calculated';
+      let efficiency_note: string | null = null;
       
       // We only calculate efficiency if we have a previous odometer reading and distance is positive
       const wh_per_km = distanceKm > 0 ? this.calculateWhPerKm(session.kwh, distanceKm) : null;
       const cost_per_100km = distanceKm > 0 ? this.calculateCostPer100km(session.cost_rm, distanceKm) : null;
 
+      if (!prevSession) {
+        efficiency_status = 'first_session';
+        efficiency_note = 'Initial log';
+      } else if (distanceKm <= 0) {
+        efficiency_status = 'odometer_not_increasing';
+        efficiency_note = 'Invalid odometer';
+      }
+
       return {
         ...session,
         rm_per_kwh,
         wh_per_km,
-        cost_per_100km
+        cost_per_100km,
+        efficiency_status,
+        efficiency_note
       };
     });
 

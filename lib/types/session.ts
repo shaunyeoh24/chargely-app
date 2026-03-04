@@ -27,4 +27,6 @@ export interface SessionWithCalculations extends ChargingSession {
   rm_per_kwh: number;
   wh_per_km: number | null;
   cost_per_100km: number | null;
+  efficiency_status: 'calculated' | 'first_session' | 'odometer_not_increasing';
+  efficiency_note: string | null;
 }

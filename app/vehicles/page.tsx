@@ -13,11 +13,9 @@ import { calculations } from '@/lib/logic/calculations';
 import { vehicleSelection } from '@/lib/logic/vehicleSelection';
 
 export default function VehiclesPage() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [statsByVehicleId, setStatsByVehicleId] = useState<Record<string, { loggedMileageKm: number | null; avgWhPerKm: number | null }>>({});
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
-  const { activeVehicleId, setActiveVehicleId } = useVehicle();
-  const [isLoading, setIsLoading] = useState(true);
+  const { activeVehicleId, setActiveVehicleId, vehicles, isLoading, refreshVehicles } = useVehicle();
 
   const computeVehicleStats = async (vehicleList: Vehicle[]) => {
     const entries = await Promise.all(
@@ -40,24 +38,6 @@ export default function VehiclesPage() {
     setStatsByVehicleId(Object.fromEntries(entries));
   };
 
-  const fetchVehicles = async () => {
-    try {
-      const data = await vehiclesService.listVehicles();
-      setVehicles(data);
-      await computeVehicleStats(data);
-      
-      // Resolve active vehicle ID based on fetched list
-      const resolvedId = vehicleSelection.resolveActiveVehicleId(activeVehicleId, data);
-      if (resolvedId !== activeVehicleId) {
-        setActiveVehicleId(resolvedId);
-      }
-    } catch (error) {
-      console.error('Failed to fetch vehicles:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleDeleteVehicle = async (id: string) => {
     try {
       // Cascade delete sessions first
@@ -70,7 +50,7 @@ export default function VehiclesPage() {
         setActiveVehicleId(null);
       }
       
-      await fetchVehicles();
+      await refreshVehicles();
     } catch (error) {
       console.error('Failed to delete vehicle:', error);
       alert('Failed to delete vehicle. Please try again.');
@@ -78,12 +58,27 @@ export default function VehiclesPage() {
   };
 
   const handleVehicleUpdated = async () => {
-    await fetchVehicles();
+    await refreshVehicles();
   };
 
   useEffect(() => {
-    fetchVehicles();
+    refreshVehicles();
   }, []);
+
+  useEffect(() => {
+    if (vehicles.length === 0) {
+      setStatsByVehicleId({});
+      return;
+    }
+
+    computeVehicleStats(vehicles);
+
+    // Resolve active vehicle ID based on current shared list
+    const resolvedId = vehicleSelection.resolveActiveVehicleId(activeVehicleId, vehicles);
+    if (resolvedId !== activeVehicleId) {
+      setActiveVehicleId(resolvedId);
+    }
+  }, [vehicles, activeVehicleId, setActiveVehicleId]);
 
   return (
     <div className="space-y-10 py-6">
@@ -123,7 +118,7 @@ export default function VehiclesPage() {
         </div>
 
         <div className="lg:col-span-2 space-y-6">
-          <VehicleForm onVehicleCreated={fetchVehicles} />
+          <VehicleForm onVehicleCreated={refreshVehicles} />
         </div>
       </div>
 

@@ -18,6 +18,13 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      vehicle_id: vehicleId,
+    }));
+  }, [vehicleId]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -30,7 +37,12 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
     }
 
     try {
-      await sessionsService.createSession(formData as CreateSessionInput);
+      const payload: CreateSessionInput = {
+        ...formData,
+        vehicle_id: vehicleId,
+      } as CreateSessionInput;
+
+      await sessionsService.createSession(payload);
       setFormData({
         vehicle_id: vehicleId,
         date: new Date().toISOString().split('T')[0],
@@ -53,90 +65,79 @@ export default function SessionForm({ vehicleId, onSessionCreated }: SessionForm
   };
 
   return (
-    <form onSubmit={handleSubmit} className="chargely-session-form bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
-      <div className="flex items-center gap-3.5 mb-2">
-        <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center shadow-inner">
-          <Zap className="w-6 h-6 text-blue-600" />
+    <form onSubmit={handleSubmit} className="chargely-session-form bg-white p-5 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shadow-inner">
+          <Zap className="w-5 h-5 text-blue-600" />
         </div>
-        <h3 className="text-xl font-black text-slate-900 tracking-tight">Log Session</h3>
+        <h3 className="text-lg font-black text-slate-900 tracking-tight">Insert Charging and Odometer Details</h3>
       </div>
       
       {error && (
-        <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2">
+        <div className="p-3 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2">
           {error}
         </div>
       )}
 
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <label className="text-sm font-black text-slate-700 ml-1 uppercase tracking-wider">Date</label>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+        <div className="space-y-1.5">
+          <label className="text-[11px] font-black text-slate-700 ml-1 uppercase tracking-wider">Date</label>
           <input
             name="date"
             type="date"
             value={formData.date || ''}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold"
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-black text-slate-700 ml-1 uppercase tracking-wider">Energy (kWh)</label>
-            <div className="relative group">
-              <input
-                name="kwh"
-                type="number"
-                step="0.01"
-                value={formData.kwh || ''}
-                onChange={handleChange}
-                placeholder="0.0"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-lg"
-              />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm group-focus-within:text-blue-500 transition-colors">kWh</div>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-black text-slate-700 ml-1 uppercase tracking-wider">Cost (RM)</label>
-            <div className="relative group">
-              <input
-                name="cost_rm"
-                type="number"
-                step="0.01"
-                value={formData.cost_rm || ''}
-                onChange={handleChange}
-                placeholder="0.00"
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-lg"
-              />
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold group-focus-within:text-blue-500 transition-colors">RM</div>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-black text-slate-700 ml-1 uppercase tracking-wider">Odometer (km)</label>
-            <div className="relative group">
-              <input
-                name="odometer_km"
-                type="number"
-                step="1"
-                value={formData.odometer_km || ''}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-lg"
-              />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm group-focus-within:text-blue-500 transition-colors">km</div>
-            </div>
-          </div>
+        <div className="space-y-1.5">
+          <label className="text-[11px] font-black text-slate-700 ml-1 uppercase tracking-wider">Energy (kWh)</label>
+          <input
+            name="kwh"
+            type="number"
+            step="0.01"
+            value={formData.kwh || ''}
+            onChange={handleChange}
+            placeholder="0.0"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
         </div>
-      </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="chargely-session-submit w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-lg hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-xl shadow-blue-200 flex items-center justify-center gap-2"
-      >
-        {isSubmitting ? 'Logging...' : 'Log Session'}
-      </button>
+        <div className="space-y-1.5">
+          <label className="text-[11px] font-black text-slate-700 ml-1 uppercase tracking-wider">Cost (RM)</label>
+          <input
+            name="cost_rm"
+            type="number"
+            step="0.01"
+            value={formData.cost_rm || ''}
+            onChange={handleChange}
+            placeholder="0.00"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-[11px] font-black text-slate-700 ml-1 uppercase tracking-wider">Odometer (km)</label>
+          <input
+            name="odometer_km"
+            type="number"
+            step="1"
+            value={formData.odometer_km || ''}
+            onChange={handleChange}
+            placeholder="0"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="chargely-session-submit w-full bg-blue-600 text-white py-2.5 rounded-xl font-black text-sm hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-lg shadow-blue-200"
+        >
+          {isSubmitting ? 'Logging...' : 'Log Session'}
+        </button>
+      </div>
     </form>
   );
 }

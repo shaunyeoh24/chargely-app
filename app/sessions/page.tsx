@@ -5,33 +5,44 @@ import { useVehicle } from '@/lib/context/VehicleContext';
 import { sessionsService } from '@/lib/services/sessionsService';
 import { calculations } from '@/lib/logic/calculations';
 import { SessionWithCalculations } from '@/lib/types/session';
-import { Vehicle } from '@/lib/types/vehicle';
-import { vehiclesService } from '@/lib/services/vehiclesService';
 import SessionForm from '@/components/sessions/SessionForm';
 import SessionTable from '@/components/sessions/SessionTable';
 import EditSessionModal from '@/components/sessions/EditSessionModal';
 import VehicleStats from '@/components/vehicles/VehicleStats';
 import Link from 'next/link';
 import { ChevronDown, Car } from 'lucide-react';
+import { vehicleSelection } from '@/lib/logic/vehicleSelection';
 
 export default function SessionsPage() {
   const { activeVehicleId, setActiveVehicleId, vehicles } = useVehicle();
-  const [activeVehicle, setActiveVehicle] = useState<Vehicle | null>(null);
   const [sessions, setSessions] = useState<SessionWithCalculations[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editingSession, setEditingSession] = useState<SessionWithCalculations | null>(null);
+  const activeVehicle = vehicles.find(v => v.id === activeVehicleId) || null;
+
+  useEffect(() => {
+    const resolvedId = vehicleSelection.resolveActiveVehicleId(activeVehicleId, vehicles);
+    if (resolvedId !== activeVehicleId) {
+      setActiveVehicleId(resolvedId);
+    }
+  }, [activeVehicleId, vehicles, setActiveVehicleId]);
 
   const fetchSessions = useCallback(async () => {
-    if (!activeVehicleId) return;
+    const resolvedId = vehicleSelection.resolveActiveVehicleId(activeVehicleId, vehicles);
+    if (resolvedId !== activeVehicleId) {
+      setActiveVehicleId(resolvedId);
+      return;
+    }
+    if (!resolvedId) {
+      setSessions([]);
+      return;
+    }
     
     setIsLoading(true);
+    setError(null);
     try {
-      // Fetch vehicle details to show identity
-      const vehicle = vehicles.find(v => v.id === activeVehicleId);
-      setActiveVehicle(vehicle || null);
-
-      const rawSessions = await sessionsService.listSessions(activeVehicleId);
+      const rawSessions = await sessionsService.listSessions(resolvedId);
       const enriched = calculations.enrichSessions(rawSessions);
       setSessions(enriched);
     } catch (err) {
@@ -40,7 +51,17 @@ export default function SessionsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [activeVehicleId, vehicles]);
+  }, [activeVehicleId, vehicles, setActiveVehicleId]);
+
+  const handleDeleteSession = async (id: string) => {
+    try {
+      await sessionsService.deleteSession(id);
+      await fetchSessions();
+    } catch (err) {
+      console.error('Failed to delete session:', err);
+      alert('Failed to delete session. Please try again.');
+    }
+  };
 
   useEffect(() => {
     fetchSessions();
@@ -69,30 +90,14 @@ export default function SessionsPage() {
 
   return (
     <div className="space-y-10 py-6">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 items-start lg:items-end">
+        <div className="lg:col-span-2">
           <div className="flex items-center gap-3 mb-2">
             <h2 className="text-4xl font-black text-slate-900 tracking-tight">
               {activeVehicle ? `${activeVehicle.name}` : 'Charging Sessions'}
             </h2>
-            
-            <div className="relative group">
-              <select
-                value={activeVehicleId || ''}
-                onChange={(e) => setActiveVehicleId(e.target.value)}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              >
-                {vehicles.map(v => (
-                  <option key={v.id} value={v.id}>{v.name}</option>
-                ))}
-              </select>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition-colors cursor-pointer">
-                <Car className="w-4 h-4" />
-                <ChevronDown className="w-4 h-4" />
-              </div>
-            </div>
           </div>
-          
+
           {activeVehicle && (
             <div className="flex items-center gap-2.5">
               <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest border border-blue-100">
@@ -101,14 +106,38 @@ export default function SessionsPage() {
             </div>
           )}
         </div>
+
+        <div className="lg:col-span-1 w-full lg:justify-self-stretch">
+          <div className="relative">
+            <select
+              value={activeVehicleId || ''}
+              onChange={(e) => setActiveVehicleId(e.target.value)}
+              className="appearance-none w-full bg-slate-50 border border-slate-200 rounded-2xl pl-11 pr-10 py-3 text-slate-700 font-semibold text-sm sm:text-base hover:border-slate-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 outline-none transition-colors"
+            >
+              {vehicles.map(v => (
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
+            <Car className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        </div>
       </div>
 
-      <VehicleStats stats={stats} />
+      <div className="space-y-4">
+        <h3 className="text-xl font-black text-slate-900 tracking-tight px-1">Lifetime Overview</h3>
+        <VehicleStats stats={stats} />
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">History</h3>
+      <div className="space-y-6">
+        <h3 className="text-xl font-black text-slate-900 tracking-tight px-1">New Charge Log</h3>
+        <SessionForm key={activeVehicleId} vehicleId={activeVehicleId} onSessionCreated={fetchSessions} />
+
+        <div className="space-y-8">
+          <div className="flex justify-between items-center px-1">
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Charging History</h3>
             <span className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black text-slate-500 uppercase tracking-widest">
               {sessions.length} {sessions.length === 1 ? 'Session' : 'Sessions'}
             </span>
@@ -126,12 +155,12 @@ export default function SessionsPage() {
               {error}
             </div>
           ) : (
-            <SessionTable sessions={sessions} onEditSession={setEditingSession} />
+            <SessionTable
+              sessions={sessions}
+              onEditSession={setEditingSession}
+              onDeleteSession={handleDeleteSession}
+            />
           )}
-        </div>
-
-        <div className="space-y-6">
-          <SessionForm vehicleId={activeVehicleId} onSessionCreated={fetchSessions} />
         </div>
       </div>
 

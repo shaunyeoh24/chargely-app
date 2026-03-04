@@ -49,6 +49,18 @@ export const sessionsService = {
     return data;
   },
 
+  async deleteSession(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('charging_sessions')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting session:', error);
+      throw new Error('Failed to delete charging session');
+    }
+  },
+
   async deleteSessionsByVehicle(vehicleId: string): Promise<void> {
     const { error } = await supabase
       .from('charging_sessions')

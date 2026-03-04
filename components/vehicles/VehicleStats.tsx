@@ -21,6 +21,7 @@ export default function VehicleStats({ stats }: VehicleStatsProps) {
       icon: Zap,
       color: 'text-amber-600',
       bg: 'bg-amber-50',
+      valueClassName: '',
     },
     {
       label: 'Total Cost',
@@ -29,6 +30,7 @@ export default function VehicleStats({ stats }: VehicleStatsProps) {
       icon: Wallet,
       color: 'text-emerald-600',
       bg: 'bg-emerald-50',
+      valueClassName: 'whitespace-nowrap tabular-nums',
     },
     {
       label: 'Avg Rate',
@@ -37,6 +39,7 @@ export default function VehicleStats({ stats }: VehicleStatsProps) {
       icon: Gauge,
       color: 'text-slate-600',
       bg: 'bg-slate-50',
+      valueClassName: '',
     },
     {
       label: 'Avg Efficiency',
@@ -45,6 +48,7 @@ export default function VehicleStats({ stats }: VehicleStatsProps) {
       icon: Activity,
       color: 'text-blue-600',
       bg: 'bg-blue-50',
+      valueClassName: '',
     },
   ];
 
@@ -60,7 +64,7 @@ export default function VehicleStats({ stats }: VehicleStatsProps) {
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{card.label}</p>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-3xl font-black text-slate-900 leading-none tracking-tight">{card.value}</span>
+                <span className={`text-3xl font-black text-slate-900 leading-none tracking-tight ${card.valueClassName || ''}`}>{card.value}</span>
                 {card.unit && <span className="text-xs font-black text-slate-400 uppercase tracking-tighter">{card.unit}</span>}
               </div>
             </div>
