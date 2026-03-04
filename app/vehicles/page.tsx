@@ -6,19 +6,45 @@ import { vehiclesService } from '@/lib/services/vehiclesService';
 import { sessionsService } from '@/lib/services/sessionsService';
 import VehicleForm from '@/components/vehicles/VehicleForm';
 import VehicleList from '@/components/vehicles/VehicleList';
+import EditVehicleModal from '@/components/vehicles/EditVehicleModal';
 import { useVehicle } from '@/lib/context/VehicleContext';
+import { calculations } from '@/lib/logic/calculations';
 
 import { vehicleSelection } from '@/lib/logic/vehicleSelection';
 
 export default function VehiclesPage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [statsByVehicleId, setStatsByVehicleId] = useState<Record<string, { loggedMileageKm: number | null; avgWhPerKm: number | null }>>({});
+  const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
   const { activeVehicleId, setActiveVehicleId } = useVehicle();
   const [isLoading, setIsLoading] = useState(true);
+
+  const computeVehicleStats = async (vehicleList: Vehicle[]) => {
+    const entries = await Promise.all(
+      vehicleList.map(async (vehicle) => {
+        const sessions = await sessionsService.listSessions(vehicle.id);
+        const enriched = calculations.enrichSessions(sessions);
+        const calculated = calculations.calculateVehicleStats(enriched);
+
+        if (sessions.length < 2) {
+          return [vehicle.id, { loggedMileageKm: null, avgWhPerKm: calculated?.avgWhPerKm ?? null }] as const;
+        }
+
+        const odometerValues = sessions.map((session) => session.odometer_km);
+        const loggedMileageKm = Math.max(...odometerValues) - Math.min(...odometerValues);
+
+        return [vehicle.id, { loggedMileageKm, avgWhPerKm: calculated?.avgWhPerKm ?? null }] as const;
+      })
+    );
+
+    setStatsByVehicleId(Object.fromEntries(entries));
+  };
 
   const fetchVehicles = async () => {
     try {
       const data = await vehiclesService.listVehicles();
       setVehicles(data);
+      await computeVehicleStats(data);
       
       // Resolve active vehicle ID based on fetched list
       const resolvedId = vehicleSelection.resolveActiveVehicleId(activeVehicleId, data);
@@ -49,6 +75,10 @@ export default function VehiclesPage() {
       console.error('Failed to delete vehicle:', error);
       alert('Failed to delete vehicle. Please try again.');
     }
+  };
+
+  const handleVehicleUpdated = async () => {
+    await fetchVehicles();
   };
 
   useEffect(() => {
@@ -86,6 +116,8 @@ export default function VehiclesPage() {
               activeVehicleId={activeVehicleId}
               onSelectVehicle={setActiveVehicleId}
               onDeleteVehicle={handleDeleteVehicle}
+              onEditVehicle={setEditingVehicle}
+              statsByVehicleId={statsByVehicleId}
             />
           )}
         </div>
@@ -94,6 +126,14 @@ export default function VehiclesPage() {
           <VehicleForm onVehicleCreated={fetchVehicles} />
         </div>
       </div>
+
+      {editingVehicle && (
+        <EditVehicleModal
+          vehicle={editingVehicle}
+          onClose={() => setEditingVehicle(null)}
+          onVehicleUpdated={handleVehicleUpdated}
+        />
+      )}
     </div>
   );
 }

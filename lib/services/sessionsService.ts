@@ -1,5 +1,5 @@
 import { supabase } from '../supabase/client';
-import { ChargingSession, CreateSessionInput } from '../types/session';
+import { ChargingSession, CreateSessionInput, UpdateSessionInput } from '../types/session';
 
 export const sessionsService = {
   async listSessions(vehicleId: string): Promise<ChargingSession[]> {

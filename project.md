@@ -44,7 +44,13 @@ User can:
 
 - View list of vehicles
 - Select active vehicle (context for sessions)
+- Edit vehicle details (name, make, model, year, battery capacity)
 - Delete vehicle (removes all associated charging history)
+- View quick vehicle cards for:
+  - year
+  - battery capacity (kWh)
+  - logged mileage (km)
+  - average efficiency (Wh/km)
 
 ---
 

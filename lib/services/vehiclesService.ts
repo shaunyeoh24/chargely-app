@@ -1,5 +1,5 @@
 import { supabase } from '../supabase/client';
-import { Vehicle, CreateVehicleInput } from '../types/vehicle';
+import { Vehicle, CreateVehicleInput, UpdateVehicleInput } from '../types/vehicle';
 
 export const vehiclesService = {
   async listVehicles(): Promise<Vehicle[]> {
@@ -26,6 +26,22 @@ export const vehiclesService = {
     if (error) {
       console.error('Error creating vehicle:', error);
       throw new Error('Failed to create vehicle');
+    }
+
+    return data;
+  },
+
+  async updateVehicle(id: string, input: UpdateVehicleInput): Promise<Vehicle> {
+    const { data, error } = await supabase
+      .from('vehicles')
+      .update(input)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating vehicle:', error);
+      throw new Error('Failed to update vehicle');
     }
 
     return data;

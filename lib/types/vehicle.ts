@@ -15,3 +15,11 @@ export interface CreateVehicleInput {
   year?: number;
   battery_capacity_kwh?: number;
 }
+
+export interface UpdateVehicleInput {
+  name: string;
+  make?: string;
+  model?: string;
+  year?: number;
+  battery_capacity_kwh?: number;
+}
